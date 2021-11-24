@@ -1,4 +1,4 @@
-Country,Code,Date,Confirmed,Days since confirmed
+Entity,Code,Date,Daily confirmed cases (7-day average),Days since confirmed cases first reached 30 per day
 Afghanistan,AFG,2020-01-02,0.0,-98.0
 Afghanistan,AFG,2020-01-03,0.0,-97.0
 Afghanistan,AFG,2020-01-04,0.0,-96.0
