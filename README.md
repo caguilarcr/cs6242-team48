@@ -34,6 +34,8 @@ python get_tweet_strings.py 1 50000 "<consumer_key>" "<consumer_secret>" "<acces
 python get_tweet_strings.py 50001 100000 "<consumer_key>" "<consumer_secret>" "<access_token>" "<access_token_secret>"
 ```
 
+Get your Twitter API keys [here](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api)
+
 > **Note:** All our generated data sheets are batched in size of `50k`. And hence all the start/end indices are of the form: `i*50000+1`,  `(i+1)*50000` where `i` belongs to the set `{0,1,2,...,399}`
 
 ####  2.3. Compute tweet string stance
