@@ -18,8 +18,8 @@ Don't want to run this step? Feel free to skip and use the output files we have 
 
 #### 2.1. Download the partial dataset
 1. Download the csv containing 20M tweet IDs (and some more information) of 2020 related election tweets from:
-	- [No expiry; account required] https://ieee-dataport.org/open-access/usa-nov2020-election-20-mil-tweets-sentiment-and-party-name-labels-dataset#files
-	- [Expires Feb 3, 2020; no account required] https://gtvault-my.sharepoint.com/:x:/g/personal/hgajjar3_gatech_edu/EeIuX6pMTNlGnXrEmKUlD14B2r86btLYU8BX8mqdicwLHw?e=Ys5P4I&download=1
+	- [No expiry; account required] [IEEE Website](https://ieee-dataport.org/open-access/usa-nov2020-election-20-mil-tweets-sentiment-and-party-name-labels-dataset#files)
+	- [Expires Feb 3, 2020; no account required] [OneDrive](https://gtvault-my.sharepoint.com/:x:/g/personal/hgajjar3_gatech_edu/EeIuX6pMTNlGnXrEmKUlD14B2r86btLYU8BX8mqdicwLHw?e=Ys5P4I&download=1)
 2. Place the downloaded csv file named `uselection_tweets_1jul_11nov.csv` in the same folder as `get_tweet_strings.py`
 
 #### 2.2. Fetch tweet strings using Twitter API
