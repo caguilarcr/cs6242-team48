@@ -1,15 +1,3 @@
-"""
-@TODO:
-1. (DONE) Create word cloud
-2. (DONE) Add annotations
-3. (DONE) Show word cloud when annotation is clicked
-4. (DONE) Deploy
-5. (DONE) Import Correct Data
-6. (DONE) Styling
-    6.1 () Change color of republican line to red
-    6.2 () If I have time, adding a slider
-    6.3 () Increase annotation font size
-"""
 import pandas as pd
 import plotly.graph_objects as go
 import dash
@@ -22,7 +10,7 @@ STYLESHEETS = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 X_COL = 'Date'
 
 
-DEFAULT_DATA_FILENAME = 'data.csv'
+DEFAULT_DATA_FILENAME = './data/data.csv'
 CLASS_COL = 'PartyName'
 Y_COL = 'Score'
 CLASS_LIST = ['Democrat', 'Republic']
