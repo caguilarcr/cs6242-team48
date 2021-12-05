@@ -1,44 +1,44 @@
 """
 @TODO:
-1. Create word cloud
-2. Add annotations
-3. Show word cloud when annotation is clicked
-4. Deploy
-5. Import Correct Data
-6. Styling
-    6.1 Change color of republican line to red
-    6.2 If I have time, adding a slider
+1. (DONE) Create word cloud
+2. (DONE) Add annotations
+3. (DONE) Show word cloud when annotation is clicked
+4. (DONE) Deploy
+5. (DONE) Import Correct Data
+6. (DONE) Styling
+    6.1 () Change color of republican line to red
+    6.2 () If I have time, adding a slider
+    6.3 () Increase annotation font size
 """
 import pandas as pd
 import plotly.graph_objects as go
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
 
 
 STYLESHEETS = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 X_COL = 'Date'
 
-# DEFAULT_DATA_FILENAME = 'data.csv'
-# CLASS_COL = 'Country'
-# Y_COL = 'Confirmed'
-# CLASS_LIST = ['United States', 'Brazil', 'India', 'Russia']
 
-DEFAULT_DATA_FILENAME = 'data_project.csv'
+DEFAULT_DATA_FILENAME = 'data.csv'
 CLASS_COL = 'PartyName'
 Y_COL = 'Score'
-CLASS_LIST = ['Democrats', 'Republicans']
+CLASS_LIST = ['Democrat', 'Republic']
+ANNOTATIONS = {
+    '2020-07-04': 'Independece Day',
+    '2020-07-30': 'Twitter blocks Trump account',
+    '2020-09-01': 'Black Live Matter conflicts',
+    '2020-09-30': 'Committe investigate Trump fraud allegations',
+    '2020-10-19': 'Fauci urged face mask mandate',
+}
 
 # region Line Chart
 
 
 def load_data_frame(path=DEFAULT_DATA_FILENAME):
     df = pd.read_csv(path)
-
-    # df.columns = ['Country', 'Code', 'Date', 'Confirmed', 'Days since confirmed']
-    # df['Date'] = pd.to_datetime(df['Date']).dt.strftime('%Y-%m-%d')
-    # return df
-
     df[X_COL] = pd.to_datetime(df['Created-At']).dt.strftime('%Y-%m-%d')
     return df.loc[:, df.columns != 'Created-At']
 
@@ -64,25 +64,43 @@ def create_traces(lines=[]):
 
 
 def create_frames(lines=[], num_traces=0, num_data_points=0):
+    annotation_keys = ANNOTATIONS.keys()
     trace_list = list(range(num_traces))
-    return [
-        go.Frame(
-            data=[
-                go.Scatter(
-                    # type='scatter',
-                    x=line[X_COL][:k+1],
-                    y=line[Y_COL][:k+1])
-                for line in lines
-            ],
-            # traces=trace_list,
-        ) for k in range(1, num_data_points - 1)
-    ]
+    frames = []
+    annotations = []
+    for k in range(1, num_data_points - 1):
+        data = [
+            go.Scatter(x=line[X_COL][:k+1], y=line[Y_COL][:k+1])
+            for line in lines
+        ]
+        current_x = lines[0][X_COL][2*k]
+        current_y = lines[0][Y_COL][2*k]
+        current_y_rep = lines[1][Y_COL][2*k+1]
+        if current_x in annotation_keys:
+            annotations.append(
+                go.layout.Annotation(
+                    x=current_x,
+                    y=current_y if current_y > 0 and current_x != '2020-09-30' else current_y_rep,
+                    ax=10,
+                    ay=-60 if current_x != '2020-09-30' else 60,
+                    xref='x',
+                    yref='y',
+                    text=ANNOTATIONS[current_x],
+                    showarrow=True,
+                    arrowhead=7,
+                )
+            )
+            layout = go.Layout(annotations=annotations)
+            frames.append(go.Frame(name=f'Frame_{k}', data=data, traces=trace_list, layout=layout))
+        else:
+            frames.append(go.Frame(name=f'Frame_{k}', data=data, traces=trace_list))
+    return frames
 
 
 def create_layout():
     layout = go.Layout(
         # width=700,
-        height=600,
+        height=500,
         showlegend=True,
         hovermode='x unified',
         updatemenus=[dict(
@@ -101,10 +119,10 @@ def create_layout():
                     args=[
                         None,
                         dict(
-                            frame=dict(duration=100, redraw=False),
+                            frame=dict(duration=50, redraw=False),
                             transition=dict(duration=0),
                             fromcurrent=True,
-                            # mode='immediate'
+                            mode='immediate'
                         )
                     ]
                 ),
@@ -125,8 +143,8 @@ def create_layout():
     )
 
     layout.update(
-        xaxis=dict(range=['2020-07-03', '2020-11-13'], autorange=False),
-        yaxis=dict(range=[-0.5, 0.5], autorange=False)
+        xaxis=dict(range=['2020-07-03', '2020-11-02'], autorange=False),
+        yaxis=dict(range=[-4.5, 4.5], autorange=False)
     )
     return layout
 
@@ -161,9 +179,19 @@ def create_figure(path=DEFAULT_DATA_FILENAME):
 # region Dash App
 
 
-app = dash.Dash(__name__)
-
-server = app.server
+styles = {
+    'pre': {
+        'border': 'thin lightgrey solid',
+        'overflowX': 'scroll'
+    },
+    'center': {
+        'display': 'block',
+        'marginLeft': 'auto',
+        'marginRight': 'auto',
+        'marginTop': '30px',
+        'width': '80%'
+    }
+}
 
 
 def create_app(line_chart_fig):
@@ -172,17 +200,38 @@ def create_app(line_chart_fig):
             children='2020 US Presidencial Race Stance Analysis (DEMO)',
             style={'textAlign': 'center'}
         ),
-        dcc.Graph(id='LineChart', figure=line_chart_fig)
+        dcc.Graph(id='LineChart', figure=line_chart_fig, config={'displayModeBar': False}),
+        html.Img(
+            id='wordcloud',
+            src='',
+            style=styles['center']
+        )
     ])
     return app
+
+
+app = dash.Dash(__name__, external_stylesheets=STYLESHEETS, assets_folder='assets')
+app.config.suppress_callback_exceptions = True
+fig = create_figure()
+create_app(fig)
+server = app.server
+
+
+@app.callback(
+    Output('wordcloud', 'src'),
+    Input('LineChart', 'clickData'))
+def display_click_data(clickData):
+    if clickData:
+        date = clickData['points'][0]['x']
+        # return f'https://storage.googleapis.com/cs6242_project/twitter/{date}.png'
+        return app.get_asset_url(f'twitter/{date}.png')
+    return ''
 
 # endregion
 
 
 if __name__ == '__main__':
-    # store_data_frame(load_data_frame('https://raw.githubusercontent.com/shinokada/covid-19-stats/master/data/daily-new-confirmed-cases-of-covid-19-tests-per-case.csv'))
-    fig = create_figure()
-    app = create_app(fig)
-    app.run_server(debug=True)
-    # df = load_data_frame()
-    # print(df.head())
+    # fig = create_figure()
+    # create_app(fig)
+    app.run_server(host='0.0.0.0', port=8080, debug=True)
+    # app.run_server(debug=True)
