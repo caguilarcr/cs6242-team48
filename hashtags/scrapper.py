@@ -5,10 +5,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 
-DRIVER_PATH = "../helpers/chromedriver.exe"
+DRIVER_PATH = "../helpers/chromedriver"
 website_url = 'https://us.trend-calendar.com/trend'
 start_date = date(2020, 7, 1)
-# end_date = date(2020, 11, 12)
+# end_date = date(2020, 7, 2)
 end_date = date(2020, 11, 12)
 delta = timedelta(days=1)
 max_hashtags = 15
@@ -17,7 +17,7 @@ max_hashtags = 15
 def get_hashtags(url, driver):
     driver.get(url)
     # time.sleep(5)
-    twitter_div = driver.find_element_by_id("google")
+    twitter_div = driver.find_element_by_id("twitter")
     hashtags = [
         e.find_element_by_tag_name("a").text
         for e in twitter_div.find_elements_by_class_name("readmoretable_line")[:max_hashtags]
@@ -25,7 +25,7 @@ def get_hashtags(url, driver):
     return hashtags
 
 
-def store_hashtags(hashtags, output_file="hashtags_google.csv"):
+def store_hashtags(hashtags, output_file="../data/hashtags.csv"):
     with open(output_file, mode='w', encoding='utf-8') as file:
         writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL, lineterminator = '\n')
         for hashtag_date, tags in hashtags.items():
