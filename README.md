@@ -77,7 +77,7 @@ cd ./hashtags
 python scrapper.py
 cd ..
 ```
-3. Run the following command to generate word cloud for each of the days. This will populate the folder `./assets/google` with png files. Note that our output already exists at the same locations.
+3. Run the following command to generate word cloud for each of the days. This will populate the folder `./assets/twitter` with png files. Note that our output already exists at the same locations.
 ```
 cd ./hashtags
 python wordcloud_generator.py
