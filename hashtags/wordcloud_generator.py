@@ -6,7 +6,7 @@ import os
 import sys
 
 OUTPUT_FOLDER = '../assets'
-HASHTAGS_FILE = '../hashtags'
+HASHTAGS_FOLDER = '../data'
 HIGHLIGHTED_KEYWORDS = [
     'Happy 4th of July',
     '#AllCountriesMatter',
@@ -37,7 +37,7 @@ def color_function(word, **kwargs):
     return (50, 50, 50) if word in HIGHLIGHTED_KEYWORDS else (230, 230, 230)
 
 
-def create_wordcloud_words(path=HASHTAGS_FILE, output_folder=OUTPUT_FOLDER):
+def create_wordcloud_words(path=HASHTAGS_FOLDER, output_folder=OUTPUT_FOLDER):
     df = pd.read_csv(path, header=None)
     wc = WordCloud(
         background_color="white",
@@ -71,11 +71,11 @@ if __name__ == '__main__':
     folders = {
         'twitter': {
             'output_folder': OUTPUT_FOLDER + '/twitter',
-            'path': HASHTAGS_FILE + '/hashtags.csv'
+            'path': HASHTAGS_FOLDER + '/hashtags.csv'
         },
         'google': {
             'output_folder': OUTPUT_FOLDER + '/google',
-            'path': HASHTAGS_FILE + '/hashtags_google.csv'
+            'path': HASHTAGS_FOLDER + '/hashtags_google.csv'
         }
     }
     folder = folders['twitter']
