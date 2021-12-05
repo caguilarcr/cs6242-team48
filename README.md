@@ -84,8 +84,8 @@ python wordcloud_generator.py
 cd..
 ```
 
-### 4. Run Visualisation Server
+### 4. Run Visualization Server
 Upon generation of stance data (from step 2) and trending topics/hashtags (from step 3), run the following command to launch an interactive webpage that uses port 8080.
 ```
-python launch_visualisation_server.py
+python launch_visualization_server.py
 ```
