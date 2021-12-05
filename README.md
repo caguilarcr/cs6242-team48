@@ -14,7 +14,7 @@
 2. Install all packages listed in `requirements.txt` using the command `python -m pip install -r requirements.txt` 
 
 ### 2. Processing Tweet stances
-Don't want to run this step? Feel free to skip and use the output files we have already generated.
+Don't want to run this step? Feel free to skip and use the output files we have already generated and skip to step 4.
 
 #### 2.1. Download the partial dataset
 1. Download the csv containing 20M tweet IDs (and some more information) of 2020 related election tweets from:
@@ -67,7 +67,7 @@ python aggregate_stance_values.py
 
 ### 3. Processing Trending Hashtags
 Requires Google Chrome, and access to [this](https://us.trend-calendar.com/trend) website containing historical trends. 
-Don't want to run this step? Feel free to skip and use the output files we have already generated.
+Don't want to run this step? Feel free to skip and use the output files we have already generated and skip to step 4.
 
 1. Download `ChromeDriver` for your installed version of chrome from [here](https://chromedriver.chromium.org/downloads). Upon downloading change the line 8 in `./hashtags/scrapper.py` to point to the download driver's location. Also, line 20 can be changed from `twitter` to `google` to get trends from Google instead of Twitter.
 2. Run the following command to get trending hashtags on the dataset's range of dates. This will create a new file `./data/hashtags.csv` with top trends for each row/date. 
@@ -77,7 +77,7 @@ cd ./hashtags
 python scrapper.py
 cd ..
 ```
-4. Run the following command to generate word cloud for each of the days. This will populate the folder `./assets/google` with png files. Note that our output already exists at the same locations.
+3. Run the following command to generate word cloud for each of the days. This will populate the folder `./assets/google` with png files. Note that our output already exists at the same locations.
 ```
 cd ./hashtags
 python wordcloud_generator.py
