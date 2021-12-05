@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 
-DRIVER_PATH = "C:\\Users\\Carlos\\Downloads\\chromedriver_win32\\chromedriver.exe"
+DRIVER_PATH = "../helpers/chromedriver.exe"
 website_url = 'https://us.trend-calendar.com/trend'
 start_date = date(2020, 7, 1)
 # end_date = date(2020, 11, 12)
