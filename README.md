@@ -61,7 +61,7 @@ python aggregate_stance_values.py
 1. All the csv files generated in `./data/processed_data_stance_aggregated` need to be unified in a single sheet. 
 2. Later, days with multiple rows (i.e. spread across multiple 50k tweet sheets) need to be grouped together.
 3. *[Optional]* Data needs to be normalised. We subtracted the standard deviation and divided by the mean per day.
-4. Upon doing this, save the final result as `./data/final_chart_data.csv/`. 
+4. Upon doing this, save the final result as `./data/final_chart_data.csv`. 
 **Note** that our processed output already exists at the same location.
 
 
