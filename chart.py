@@ -10,7 +10,7 @@ STYLESHEETS = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 X_COL = 'Date'
 
 
-DEFAULT_DATA_FILENAME = './data/data.csv'
+DEFAULT_DATA_FILENAME = './data/final_chart_data.csv'
 CLASS_COL = 'PartyName'
 Y_COL = 'Score'
 CLASS_LIST = ['Democrat', 'Republic']
